@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp2
+{
+    public struct Money
+    {
+        public int Ruble { get; set; }
+        private int kopeck;
+        public int Kopeck
+        {
+            get { return kopeck; }
+            set {
+                if (value < 0 || value > 99)
+                    throw new Exception("Количество копеек должно быть числом от 0 до 99");
+                else
+                    kopeck = value;
+            }
+        }
+        public Money(int ruble, int kopeck) : this()
+        {
+            Ruble = ruble;
+            Kopeck = kopeck;
+        }
+        public override string ToString()
+        {
+            return string.Format("{0}, {1:00}", Ruble, Kopeck);
+        }
+        public static Money operator +(Money m1, Money m2)
+        {
+            Money money = new Money();
+            money.Ruble = m1.Ruble + m2.Ruble;
+            int kopeck = m1.Kopeck + m2.Kopeck;
+            if (kopeck>99)
+            {
+                money.Ruble += kopeck / 100;
+                kopeck = kopeck % 100;
+                money.kopeck = kopeck;
+            }
+            else
+            {
+                money.kopeck = kopeck;
+            }
+            return money;
+            
+        }
+
+        public static Money operator -(Money m1, Money m2)
+        {
+            Money money = new Money();
+            money.Ruble = m1.Ruble - m2.Ruble;
+            if (m1.Kopeck < m2.Kopeck && m1.Ruble>m2.Ruble)
+            {
+                money.Ruble -= 1;
+                int kopeck = m1.Kopeck + 100 - m2.Kopeck;
+                money.kopeck = kopeck;
+            }
+            else
+            {
+                int kopeck = m1.Kopeck - m2.Kopeck;
+                money.kopeck = Math.Abs(kopeck);
+            }
+            return money;
+
+        }
+    }
+    class Program
+    {
+        
+            static void Main()
+            {
+            Money money1 = new Money(11, 51);
+            Money money2 = new Money(25, 90);
+
+            Money money3 = money1 + money2;
+            Console.WriteLine(money3); // 37, 41
+
+            Money money4 = money3 - money2;
+            Console.WriteLine(money4); // 11, 51
+
+            Money money5 = money1 - money2;
+            Console.WriteLine(money5); // -14, 39
+        }
+        
+    }
+}

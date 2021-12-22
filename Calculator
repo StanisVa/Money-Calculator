@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ConsoleApp2
 {
@@ -72,6 +69,15 @@ namespace ConsoleApp2
         
             static void Main()
             {
+            Money money5 = new Money(10, 50);
+            Console.WriteLine(money5); // 10, 50
+
+            money5.Ruble = 4;
+            money5.Kopeck = 5;
+            Console.WriteLine(money5); // 4, 05
+
+            //money1.Kopeck = 100; // ошибка
+
             Money money1 = new Money(11, 51);
             Money money2 = new Money(25, 90);
 
@@ -81,8 +87,8 @@ namespace ConsoleApp2
             Money money4 = money3 - money2;
             Console.WriteLine(money4); // 11, 51
 
-            Money money5 = money1 - money2;
-            Console.WriteLine(money5); // -14, 39
+            Money money6 = money1 - money2;
+            Console.WriteLine(money6); // -14, 39
         }
         
     }
